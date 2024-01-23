@@ -12,12 +12,19 @@ C# bindings for raylib, a simple and easy-to-use library to learn videogames pro
 
 [![Build](https://github.com/ChrisDill/Raylib-cs/workflows/Build/badge.svg)](https://github.com/ChrisDill/Raylib-cs/actions?query=workflow%3ABuild)
 
-Raylib-cs targets net5.0 and net6.0 and uses the [official 4.5.0 release](https://github.com/raysan5/raylib/releases/tag/4.5.0) to build the native libraries.
+Raylib-cs targets net5.0 and net6.0 and uses the [official 5.0 release](https://github.com/raysan5/raylib/releases/tag/5.0) to build the native libraries.
 
 ## Installation - NuGet
 
 This is the prefered method to get started.
 
+1) Pick a folder in which you would like to start a raylib project for example "MyRaylibCSProj"
+2) Then from a terminal (for example a VSCode terminal), whilst in the folder dir you just created
+    run the following commands. (Please keep in mind you should have .NET already installed on your system)
+
+```
+dotnet new console
+```
 ```
 dotnet add package Raylib-cs
 ```
@@ -36,7 +43,7 @@ the command won't work.
 
 2. Add [Raylib-cs/Raylib-cs.csproj](Raylib-cs/Raylib-cs.csproj) to your project as an existing project.
 
-3. Download the native libraries for the platforms you want to build for using the [official 4.5.0 release](https://github.com/raysan5/raylib/releases/tag/4.5.0).
+3. Download the native libraries for the platforms you want to build for using the [official 5.0 release](https://github.com/raysan5/raylib/releases/tag/5.0).
    **NOTE: the MSVC version is required for Windows platforms**
 
 4. Setup the native libraries so they are in the same directory as the executable/can be found in the [search path](https://www.mono-project.com/docs/advanced/pinvoke/).
@@ -59,9 +66,9 @@ class Program
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.WHITE);
+            Raylib.ClearBackground(Color.White);
 
-            Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
+            Raylib.DrawText("Hello, world!", 12, 12, 20, Color.Black);
 
             Raylib.EndDrawing();
         }

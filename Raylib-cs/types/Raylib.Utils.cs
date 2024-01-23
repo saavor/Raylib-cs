@@ -120,6 +120,13 @@ public static unsafe partial class Raylib
     }
 
     /// <summary>Load image sequence from file (frames appended to image.data)</summary>
+    public static Image LoadImageSvg(string fileName, int width, int height)
+    {
+        using var str1 = fileName.ToAnsiBuffer();
+        return LoadImageSvg(str1.AsPointer(), width, height);
+    }
+
+    /// <summary>Load image sequence from file (frames appended to image.data)</summary>
     public static Image LoadImageAnim(string fileName, out int frames)
     {
         using var str1 = fileName.ToAnsiBuffer();
@@ -415,6 +422,13 @@ public static unsafe partial class Raylib
         }
     }
 
+    /// <summary>Generate image: grayscale image from text data</summary>
+    public static Image GenImageText(int width, int height, string text)
+    {
+        using var str1 = text.ToUtf8Buffer();
+        return GenImageText(width, height, str1.AsPointer());
+    }
+
     /// <summary>Create an image from text (default font)</summary>
     public static Image ImageText(string text, int fontSize, Color color)
     {
@@ -568,6 +582,15 @@ public static unsafe partial class Raylib
         fixed (Image* p = &image)
         {
             ImageFlipHorizontal(p);
+        }
+    }
+
+    /// <summary>Rotate image by input angle in degrees (-359 to 359)</summary>
+    public static void ImageRotate(ref Image image, int degrees)
+    {
+        fixed (Image* p = &image)
+        {
+            ImageRotate(p, degrees);
         }
     }
 
@@ -840,12 +863,12 @@ public static unsafe partial class Raylib
     }
 
     /// <summary>Load font from file with extended parameters</summary>
-    public static Font LoadFontEx(string fileName, int fontSize, int[] fontChars, int glyphCount)
+    public static Font LoadFontEx(string fileName, int fontSize, int[] codepoints, int codepointCount)
     {
         using var str1 = fileName.ToAnsiBuffer();
-        fixed (int* p = fontChars)
+        fixed (int* p = codepoints)
         {
-            return LoadFontEx(str1.AsPointer(), fontSize, p, glyphCount);
+            return LoadFontEx(str1.AsPointer(), fontSize, p, codepointCount);
         }
     }
 
@@ -856,14 +879,14 @@ public static unsafe partial class Raylib
         string fileType,
         byte[] fileData,
         int fontSize,
-        int[] fontChars,
-        int glyphCount
+        int[] codepoints,
+        int codepointCount
     )
     {
         using var fileTypeNative = fileType.ToAnsiBuffer();
         fixed (byte* fileDataNative = fileData)
         {
-            fixed (int* fontCharsNative = fontChars)
+            fixed (int* fontCharsNative = codepoints)
             {
                 Font font = LoadFontFromMemory(
                     fileTypeNative.AsPointer(),
@@ -871,7 +894,7 @@ public static unsafe partial class Raylib
                     fileData.Length,
                     fontSize,
                     fontCharsNative,
-                    glyphCount
+                    codepointCount
                 );
 
                 return font;
@@ -976,6 +999,51 @@ public static unsafe partial class Raylib
         fixed (Vector2* p = points)
         {
             DrawTriangleStrip(p, pointCount, color);
+        }
+    }
+
+    /// <summary>Draw spline: Linear, minimum 2 points</summary>
+    public static void DrawSplineLinear(Vector2[] points, int pointCount, float thick, Color color)
+    {
+        fixed (Vector2* p = points)
+        {
+            DrawSplineLinear(p, pointCount, thick, color);
+        }
+    }
+
+    /// <summary>Draw spline: B-Spline, minimum 4 points</summary>
+    public static void DrawSplineBasis(Vector2[] points, int pointCount, float thick, Color color)
+    {
+        fixed (Vector2* p = points)
+        {
+            DrawSplineBasis(p, pointCount, thick, color);
+        }
+    }
+
+    /// <summary>Draw spline: Catmull-Rom, minimum 4 points</summary>
+    public static void DrawSplineCatmullRom(Vector2[] points, int pointCount, float thick, Color color)
+    {
+        fixed (Vector2* p = points)
+        {
+            DrawSplineCatmullRom(p, pointCount, thick, color);
+        }
+    }
+
+    /// <summary>Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]</summary>
+    public static void DrawSplineBezierQuadratic(Vector2[] points, int pointCount, float thick, Color color)
+    {
+        fixed (Vector2* p = points)
+        {
+            DrawSplineBezierQuadratic(p, pointCount, thick, color);
+        }
+    }
+
+    /// <summary>Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]</summary>
+    public static void DrawSplineBezierCubic(Vector2[] points, int pointCount, float thick, Color color)
+    {
+        fixed (Vector2* p = points)
+        {
+            DrawSplineBezierCubic(p, pointCount, thick, color);
         }
     }
 
